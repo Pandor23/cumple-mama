@@ -38,12 +38,13 @@ body{
 }
 
 .title-top{
-  margin-bottom:14px;
+  margin:0 0 14px;
   opacity:.85;
 }
 
-/* ===== ENVELOPE ===== */
+/* ===== ENVELOPE SCENE ===== */
 .envelope-scene{
+  width: 100%;
   position:relative;
   height:380px;
   display:flex;
@@ -51,10 +52,12 @@ body{
   align-items:center;
 }
 
+/* ✅ responsive + centrado real */
 .envelope{
   position:relative;
-  width:420px;
+  width: min(420px, 92vw);
   height:250px;
+  margin: 0 auto;
 }
 
 .envelope-shell{
@@ -112,12 +115,13 @@ body{
 }
 
 /* ===== LETTER ===== */
+/* ✅ responsive + centrado */
 .letter{
   position:absolute;
   bottom:14px;
   left:50%;
   transform:translateX(-50%) translateY(120px);
-  width:380px;
+  width: min(380px, 88vw);
   min-height:238px;
   background:var(--paper);
   border-radius:16px;
@@ -134,16 +138,13 @@ body{
   gap:12px;
 }
 
-.opened .flap{
-  transform:rotateX(165deg);
-}
-
+/* ===== OPEN ANIMATION ===== */
+.opened .flap{ transform:rotateX(165deg); }
 .opened .seal{
   opacity:0;
   pointer-events:none;
   animation:none;
 }
-
 .opened .letter{
   transform:translateX(-50%) translateY(-38px);
   opacity:1;
@@ -160,16 +161,16 @@ body{
   transition:.2s;
 }
 
-/* ✅ Fix centrado real */
+/* ✅ centrado absoluto del botón */
 #btnMore{
   display:block;
-  align-self:center;
   margin-left:auto;
   margin-right:auto;
-  transform-origin:center center; /* clave */
+  align-self:center;
+  transform-origin:center center;
 }
 
-/* 🔥 DESPLIEGUE DEL BOTÓN */
+/* 🔥 “despliegue” SOLO del botón */
 .letter.show-pd #btnMore{
   animation: btnUnfold .55s ease forwards;
   pointer-events:none;
@@ -192,10 +193,10 @@ body{
   opacity:0;
   transform:translateY(-6px);
 
-  /* ✅ centra el bloque del PD */
+  /* ✅ centrado + ancho consistente */
+  width: min(380px, 88vw);
   margin-left:auto;
   margin-right:auto;
-  width:min(380px, 88vw);
 }
 
 .letter.show-pd .paper-note{
@@ -215,17 +216,18 @@ body{
   pointer-events:none;
 }
 
+.sheet-mode .envelope-scene{
+  height: 520px;
+}
+
 .sheet-mode .letter{
   position:relative;
+  left:auto;
   transform:none;
   margin:0 auto;
   opacity:1;
 }
 
-@media (max-width: 420px){
-  .envelope{ width:min(420px, 92vw); }
-  .letter{ width:min(380px, 88vw); }
-}
 </style>
 </head>
 
