@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Feliz Cumple, Má</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fdeff2, #fff);
+            font-family: "Georgia", serif;
+            color: #444;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            max-width: 420px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #c65b7c;
+            margin-bottom: 16px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #c65b7c;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #b04f6c;
+        }
+
+        .pd {
+            display: none;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Feliz cumpleaños, má ❤️</h1>
+
+    <p>
+        Hoy quería decirte gracias.<br>
+        Gracias por tu amor, tu paciencia, por estar siempre y por todo lo que hiciste por mí a lo largo de la vida.
+    </p>
+
+    <p>
+        Te deseo un año lleno de tranquilidad, salud y momentos lindos.<br>
+        Ojalá puedas disfrutarlo mucho, porque te lo merecés de verdad.
+    </p>
+
+    <p>Te quiero muchísimo 🤍</p>
+
+    <button onclick="mostrarPD()">Leer una cosita más</button>
+
+    <div class="pd" id="pd">
+        PD: Y para terminar tu sorpresa…<br>
+        dejate llevar, solo tenés que taparte los ojos 💐
+    </div>
+</div>
+
+<script>
+    function mostrarPD() {
+        document.getElementById("pd").style.display = "block";
+    }
+</script>
+
+</body>
+</html>
