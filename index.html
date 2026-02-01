@@ -1,454 +1,293 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Feliz Cumple, Má</title>
-  <style>
-    :root{
-      --bg1:#fdeff2;
-      --bg2:#ffffff;
-      --accent:#c65b7c;
-      --accent2:#b04f6c;
-      --paper:#ffffff;
-      --ink:#444;
-      --shadow: rgba(0,0,0,.12);
-      --env:#f6d6df;
-      --env2:#f0c6d2;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Feliz Cumple, Má</title>
 
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
-      color: var(--ink);
-      font-family: Georgia, serif;
-      padding: 18px;
-    }
+<style>
+:root{
+  --bg1:#fdeff2;
+  --bg2:#ffffff;
+  --accent:#c65b7c;
+  --accent2:#b04f6c;
+  --paper:#ffffff;
+  --ink:#444;
+  --shadow: rgba(0,0,0,.12);
+  --env:#f6d6df;
+  --env2:#f0c6d2;
+}
 
-    .stage{
-      width:min(520px, 95vw);
-      text-align:center;
-    }
+*{ box-sizing:border-box; }
 
-    .title-top{
-      margin:0 0 14px;
-      font-size: 18px;
-      opacity:.85;
-    }
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  font-family: Georgia, serif;
+  color:var(--ink);
+  padding:18px;
+}
 
-    .envelope-scene{
-      position:relative;
-      height: 380px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin: 0 auto;
-      transition: height 600ms ease;
-    }
+.stage{
+  width:min(520px,95vw);
+  text-align:center;
+}
 
-    .envelope{
-      position:relative;
-      width: min(420px, 92vw);
-      height: 250px;
-      margin: 0 auto;
-      transform: translateY(6px);
-      filter: drop-shadow(0 18px 30px var(--shadow));
-    }
+.title-top{
+  margin-bottom:14px;
+  opacity:.85;
+}
 
-    .envelope-shell{
-      position:absolute;
-      inset:0;
-      transition: opacity 520ms ease, transform 520ms ease;
-    }
+/* ===== ENVELOPE ===== */
+.envelope-scene{
+  position:relative;
+  height:380px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-    .env-back{
-      position:absolute;
-      inset:0;
-      background: linear-gradient(180deg, var(--env), var(--env2));
-      border-radius: 18px;
-      border: 1px solid rgba(0,0,0,.06);
-      overflow:hidden;
-      z-index: 1;
-    }
+.envelope{
+  position:relative;
+  width:420px;
+  height:250px;
+}
 
-    .env-front{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index: 3;
-    }
-    .env-front:before{
-      content:"";
-      position:absolute;
-      left:0; right:0; bottom:0;
-      height: 65%;
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.02));
-      clip-path: polygon(0 100%, 50% 25%, 100% 100%, 100% 0, 0 0);
-      border-bottom-left-radius:18px;
-      border-bottom-right-radius:18px;
-      border: 1px solid rgba(0,0,0,.05);
-      border-top: none;
-    }
-    .env-front:after{
-      content:"";
-      position:absolute;
-      left:0; right:0; bottom:0;
-      height: 72%;
-      clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
-      background: rgba(255,255,255,.08);
-      opacity:.6;
-    }
+.envelope-shell{
+  position:absolute;
+  inset:0;
+  transition: opacity .5s ease, transform .5s ease;
+}
 
-    .flap{
-      position:absolute;
-      left:0; right:0; top:0;
-      height: 58%;
-      background: linear-gradient(180deg, #f9e1e8, var(--env));
-      clip-path: polygon(0 0, 100% 0, 50% 85%);
-      transform-origin: top center;
-      transform: rotateX(0deg);
-      transition: transform 900ms ease;
-      border-top-left-radius:18px;
-      border-top-right-radius:18px;
-      border: 1px solid rgba(0,0,0,.06);
-      border-bottom:none;
-      z-index: 4;
-    }
+.env-back{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,var(--env),var(--env2));
+  border-radius:18px;
+}
 
-    @keyframes heartbeat {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      20%      { transform: translate(-50%, -50%) scale(1.06); }
-      40%      { transform: translate(-50%, -50%) scale(1.00); }
-      60%      { transform: translate(-50%, -50%) scale(1.05); }
-      80%      { transform: translate(-50%, -50%) scale(1.00); }
-    }
+.flap{
+  position:absolute;
+  top:0; left:0; right:0;
+  height:58%;
+  background:linear-gradient(180deg,#f9e1e8,var(--env));
+  clip-path: polygon(0 0,100% 0,50% 85%);
+  transform-origin: top center;
+  transition: transform .9s ease;
+}
 
-    .seal{
-      position:absolute;
-      left:50%;
-      top: 54%;
-      transform: translate(-50%, -50%);
-      width: 54px;
-      height: 54px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #ffd7e2, var(--accent));
-      box-shadow: 0 10px 18px rgba(0,0,0,.12);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:white;
-      font-size: 20px;
-      user-select:none;
-      transition: transform 700ms ease, opacity 500ms ease;
-      animation: heartbeat 2.4s ease-in-out infinite;
-      cursor: pointer;
-      z-index: 10;
-      pointer-events: auto;
-    }
+.env-front{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
 
-    /* ===== LETTER ===== */
-    .letter{
-      position:absolute;
-      left:50%;
-      bottom: 14px;
-      width: min(380px, 88vw);
+/* ===== HEART ===== */
+@keyframes heartbeat{
+  0%,100%{transform:translate(-50%,-50%) scale(1);}
+  50%{transform:translate(-50%,-50%) scale(1.06);}
+}
 
-      /* ✅ en vez de height fijo, usamos min-height */
-      min-height: 238px;
-      height: 238px;             /* mantiene la animación inicial igual */
-      background: var(--paper);
-      border-radius: 16px;
-      box-shadow: 0 10px 22px rgba(0,0,0,.10);
-      border: 1px solid rgba(0,0,0,.06);
-      overflow:hidden;
+.seal{
+  position:absolute;
+  top:54%;
+  left:50%;
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#ffd7e2,var(--accent));
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  cursor:pointer;
+  animation:heartbeat 2.4s ease-in-out infinite;
+  transform:translate(-50%,-50%);
+  z-index:5;
+}
 
-      transform: translateX(-50%) translateY(120px);
-      opacity: 0;
+/* ===== LETTER ===== */
+.letter{
+  position:absolute;
+  bottom:14px;
+  left:50%;
+  transform:translateX(-50%) translateY(120px);
+  width:380px;
+  min-height:238px;
+  background:var(--paper);
+  border-radius:16px;
+  box-shadow:0 10px 22px rgba(0,0,0,.1);
+  opacity:0;
+  transition: transform 1s ease, opacity .7s ease;
+}
 
-      transition: transform 1050ms cubic-bezier(.2,.9,.2,1), opacity 700ms ease, height 600ms ease;
-      z-index: 2;
-    }
+.letter-inner{
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
 
-    .letter::before{
-      content:"";
-      position:absolute;
-      left:0; right:0; top:0;
-      height: 10px;
-      background: linear-gradient(90deg, rgba(0,0,0,.04), rgba(0,0,0,0), rgba(0,0,0,.04));
-      opacity:.35;
-    }
+.opened .flap{
+  transform:rotateX(165deg);
+}
 
-    /* ✅ clave: NO centrar verticalmente, sino arrancar arriba */
-    .letter-inner{
-      padding: 22px 20px 18px;
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-      align-items:center;
-      justify-content:flex-start;
-      position: relative;
-      z-index: 1;
-    }
+.opened .seal{
+  opacity:0;
+  pointer-events:none;
+  animation:none;
+}
 
-    .letter h1{
-      margin: 0 0 6px;
-      color: var(--accent);
-      font-size: 24px;
-      line-height: 1.2;
-    }
-    .letter p{
-      margin:0;
-      font-size: 17px;
-      line-height: 1.7;
-      max-width: 44ch;
-    }
+.opened .letter{
+  transform:translateX(-50%) translateY(-38px);
+  opacity:1;
+}
 
-    .btn{
-      appearance:none;
-      border:none;
-      background: var(--accent);
-      color:white;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-size: 15px;
-      cursor:pointer;
-      box-shadow: 0 10px 18px rgba(0,0,0,.12);
-      transition: transform 160ms ease, background 200ms ease, opacity 200ms ease;
-      position: relative;
-      z-index: 5;
-      margin-top: 6px;
-    }
-    .btn:hover{ background: var(--accent2); }
-    .btn:active{ transform: translateY(1px) scale(.99); }
+/* ===== BUTTON ===== */
+.btn{
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  border-radius:999px;
+  padding:12px 18px;
+  cursor:pointer;
+  transition:.2s;
+}
 
-    /* ===== OPEN STATE ===== */
-    .opened .flap{
-      transform: rotateX(165deg);
-    }
-    .opened .seal{
-      animation:none;
-      transform: translate(-50%, -50%) scale(.85);
-      opacity: 0;
-      pointer-events:none;
-    }
-    .opened .letter{
-      transform: translateX(-50%) translateY(-38px);
-      opacity: 1;
+/* ✅ Fix centrado real */
+#btnMore{
+  display:block;
+  align-self:center;
+  margin-left:auto;
+  margin-right:auto;
+  transform-origin:center center; /* clave */
+}
 
-      /* ✅ al abrir, dejamos que crezca según el contenido */
-      height: auto;
-      overflow: visible;
-    }
+/* 🔥 DESPLIEGUE DEL BOTÓN */
+.letter.show-pd #btnMore{
+  animation: btnUnfold .55s ease forwards;
+  pointer-events:none;
+}
 
-    /* PD */
-    .pd-wrap{
-      width:100%;
-      display:flex;
-      justify-content:center;
-      margin-top: 10px;
-    }
+@keyframes btnUnfold{
+  0%{transform:scaleY(1);opacity:1;}
+  40%{transform:scaleY(1.15);}
+  100%{transform:scaleY(0);opacity:0;}
+}
 
-    .paper-note{
-      position:relative;
-      width: min(380px, 88vw);
-      background: #fff;
-      border-radius: 14px;
-      border: 1px solid rgba(0,0,0,.06);
-      box-shadow: 0 10px 22px rgba(0,0,0,.08);
-      padding: 16px 16px 14px;
-      text-align:center;
-      overflow:hidden;
+/* ===== PD ===== */
+.paper-note{
+  display:none;
+  margin-top:12px;
+  padding:16px;
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 10px 22px rgba(0,0,0,.08);
+  opacity:0;
+  transform:translateY(-6px);
 
-      display:none;
-      opacity:0;
-      transform: translateY(8px);
-      pointer-events:none;
-    }
+  /* ✅ centra el bloque del PD */
+  margin-left:auto;
+  margin-right:auto;
+  width:min(380px, 88vw);
+}
 
-    .paper-note::after{
-      content:"";
-      position:absolute;
-      bottom: 0;
-      right: 0;
-      width: 0;
-      height: 0;
-      border-bottom-right-radius: 14px;
-      filter: drop-shadow(0 6px 6px rgba(0,0,0,.10));
-      opacity: 0;
-    }
+.letter.show-pd .paper-note{
+  display:block;
+  animation: pdIn .6s ease forwards;
+  animation-delay:.3s;
+}
 
-    .paper-note.show{
-      display:block;
-      pointer-events:auto;
-      animation: noteIn 700ms ease-out forwards;
-    }
-    .paper-note.show::after{
-      animation: foldCornerBR 720ms ease-out forwards;
-      animation-delay: 140ms;
-    }
+@keyframes pdIn{
+  to{opacity:1;transform:translateY(0);}
+}
 
-    @keyframes noteIn{
-      from{ opacity:0; transform: translateY(10px); }
-      to{ opacity:1; transform: translateY(0); }
-    }
+/* ===== SHEET MODE ===== */
+.sheet-mode .envelope-shell{
+  opacity:0;
+  transform:translateY(16px);
+  pointer-events:none;
+}
 
-    @keyframes foldCornerBR{
-      0%{
-        opacity:0;
-        border-bottom: 0 solid rgba(255,255,255,0);
-        border-left: 0 solid rgba(0,0,0,0);
-      }
-      45%{
-        opacity:1;
-        border-bottom: 0 solid rgba(255,255,255,0);
-        border-left: 52px solid rgba(0,0,0,.06);
-      }
-      100%{
-        opacity:1;
-        border-bottom: 52px solid rgba(255,255,255,.85);
-        border-left: 52px solid rgba(0,0,0,.06);
-      }
-    }
+.sheet-mode .letter{
+  position:relative;
+  transform:none;
+  margin:0 auto;
+  opacity:1;
+}
 
-    .pd-text{
-      font-weight: 700;
-      font-size: 16.5px;
-      line-height: 1.55;
-      color:#333;
-    }
-
-    .hint{
-      font-size: 12.5px;
-      opacity:.7;
-      margin-top: 10px;
-    }
-
-    /* ===== SHEET MODE ===== */
-    .sheet-mode .envelope-shell{
-      opacity: 0;
-      transform: translateY(16px) scale(.98);
-      pointer-events:none;
-    }
-
-    .sheet-mode .envelope-scene{
-      height: 520px; /* ✅ más alto para que entre todo cómodo */
-    }
-
-    .sheet-mode .letter{
-      position: relative;
-      left: auto;
-      bottom: auto;
-      transform: none !important;
-      opacity: 1 !important;
-      margin: 0 auto;
-
-      /* ✅ por las dudas, aseguramos */
-      height: auto !important;
-      overflow: visible !important;
-    }
-
-    @media (max-width: 380px){
-      .letter h1{ font-size: 22px; }
-      .letter p{ font-size: 16px; }
-      .sheet-mode .envelope-scene{ height: 560px; }
-    }
-  </style>
+@media (max-width: 420px){
+  .envelope{ width:min(420px, 92vw); }
+  .letter{ width:min(380px, 88vw); }
+}
+</style>
 </head>
 
 <body>
-  <div class="stage" id="stage">
-    <p class="title-top">Una cartita para vos 💐</p>
 
-    <div class="envelope-scene">
-      <div class="envelope" id="envelope">
-        <div class="envelope-shell">
-          <div class="env-back"></div>
-          <div class="flap"></div>
-          <div class="seal" id="seal">❤</div>
-          <div class="env-front"></div>
-        </div>
+<div class="stage" id="stage">
+  <p class="title-top">Una cartita para vos 💐</p>
 
-        <div class="letter" id="letter">
-          <div class="letter-inner">
-            <h1>Feliz cumpleaños, má ❤️</h1>
+  <div class="envelope-scene">
+    <div class="envelope" id="envelope">
 
-            <p>
-              Hoy quería decirte gracias.<br>
-              Gracias por tu amor, tu paciencia, por estar siempre y por todo lo que hiciste por mí a lo largo de la vida.
-            </p>
+      <div class="envelope-shell">
+        <div class="env-back"></div>
+        <div class="flap"></div>
+        <div class="seal" id="seal">❤</div>
+        <div class="env-front"></div>
+      </div>
 
-            <p>
-              Te deseo un año lleno de tranquilidad, salud y momentos lindos.<br>
-              Ojalá puedas disfrutarlo mucho, porque te lo merecés de verdad.
-            </p>
+      <div class="letter" id="letter">
+        <div class="letter-inner">
 
-            <p>Te quiero muchísimo 🤍</p>
+          <h2>Feliz cumpleaños, má ❤️</h2>
 
-            <button class="btn" id="btnMore" type="button">Una cosita más para vos</button>
+          <p>Gracias por tu amor, tu paciencia y por estar siempre.</p>
+          <p>Te deseo un año lleno de paz y momentos lindos.</p>
+          <p>Te quiero muchísimo 🤍</p>
 
-            <div class="pd-wrap">
-              <div class="paper-note" id="paperNote">
-                <div class="pd-text">
-                  PD: Y para terminar tu sorpresa…<br>
-                  dejate llevar, solo tenés que taparte los ojos 💐
-                </div>
-              </div>
-            </div>
+          <button class="btn" id="btnMore">Una cosita más para vos</button>
 
-            <div class="hint">Tocá el corazón para abrir el sobre 😊</div>
+          <div class="paper-note" id="paperNote">
+            <strong>PD:</strong><br>
+            Y para terminar tu sorpresa…<br>
+            dejate llevar, solo tenés que taparte los ojos 💐
           </div>
+
         </div>
       </div>
+
     </div>
   </div>
+</div>
 
-  <script>
-    const stage = document.getElementById("stage");
-    const envelope = document.getElementById("envelope");
-    const seal = document.getElementById("seal");
-    const btnMore = document.getElementById("btnMore");
-    const paperNote = document.getElementById("paperNote");
+<script>
+const stage = document.getElementById("stage");
+const envelope = document.getElementById("envelope");
+const seal = document.getElementById("seal");
+const btnMore = document.getElementById("btnMore");
+const letter = document.getElementById("letter");
 
-    let opened = false;
+let opened = false;
 
-    function openEnvelope(){
-      if (opened) return;
-      opened = true;
+seal.addEventListener("click", () => {
+  if(opened) return;
+  opened = true;
+  envelope.classList.add("opened");
+  setTimeout(()=>stage.classList.add("sheet-mode"),1200);
+});
 
-      envelope.classList.add("opened");
+btnMore.addEventListener("click", () => {
+  letter.classList.add("show-pd");
+});
+</script>
 
-      paperNote.classList.remove("show");
-      paperNote.style.display = "none";
-
-      setTimeout(() => {
-        stage.classList.add("sheet-mode");
-      }, 1200);
-    }
-
-    function showPD(){
-      paperNote.style.display = "block";
-      paperNote.classList.remove("show");
-      void paperNote.offsetWidth;
-      paperNote.classList.add("show");
-
-      btnMore.disabled = true;
-      btnMore.style.opacity = "0.85";
-      btnMore.style.cursor = "default";
-    }
-
-    seal.addEventListener("click", openEnvelope);
-    seal.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      openEnvelope();
-    }, { passive: false });
-
-    btnMore.addEventListener("click", showPD);
-  </script>
 </body>
 </html>
