@@ -41,7 +41,6 @@
       opacity:.85;
     }
 
-    /* ===== Envelope Scene ===== */
     .envelope-scene{
       position:relative;
       height: 380px;
@@ -59,10 +58,14 @@
       margin: 0 auto;
       transform: translateY(6px);
       filter: drop-shadow(0 18px 30px var(--shadow));
+    }
+
+    .envelope-shell{
+      position:absolute;
+      inset:0;
       transition: opacity 520ms ease, transform 520ms ease;
     }
 
-    /* Back */
     .env-back{
       position:absolute;
       inset:0;
@@ -70,13 +73,14 @@
       border-radius: 18px;
       border: 1px solid rgba(0,0,0,.06);
       overflow:hidden;
+      z-index: 1;
     }
 
-    /* Front triangles (classic envelope) */
     .env-front{
       position:absolute;
       inset:0;
       pointer-events:none;
+      z-index: 3;
     }
     .env-front:before{
       content:"";
@@ -100,7 +104,6 @@
       opacity:.6;
     }
 
-    /* Flap */
     .flap{
       position:absolute;
       left:0; right:0; top:0;
@@ -114,9 +117,9 @@
       border-top-right-radius:18px;
       border: 1px solid rgba(0,0,0,.06);
       border-bottom:none;
+      z-index: 4;
     }
 
-    /* 💓 Heartbeat animation (lento y suave) */
     @keyframes heartbeat {
       0%, 100% { transform: translate(-50%, -50%) scale(1); }
       20%      { transform: translate(-50%, -50%) scale(1.06); }
@@ -125,7 +128,6 @@
       80%      { transform: translate(-50%, -50%) scale(1.00); }
     }
 
-    /* Seal (heart) */
     .seal{
       position:absolute;
       left:50%;
@@ -143,24 +145,22 @@
       font-size: 20px;
       user-select:none;
       transition: transform 700ms ease, opacity 500ms ease;
-
-      /* 👇 empieza latiendo */
       animation: heartbeat 2.4s ease-in-out infinite;
       cursor: pointer;
+      z-index: 10;
+      pointer-events: auto;
     }
 
-    /* Cuando el sobre está abierto, cortamos el latido (y ya lo haces invisible) */
-    .opened .seal{
-      animation: none;
-    }
-
-    /* Letter (starts inside envelope) */
+    /* ===== LETTER ===== */
     .letter{
       position:absolute;
       left:50%;
       bottom: 14px;
       width: min(380px, 88vw);
-      height: 238px;
+
+      /* ✅ en vez de height fijo, usamos min-height */
+      min-height: 238px;
+      height: 238px;             /* mantiene la animación inicial igual */
       background: var(--paper);
       border-radius: 16px;
       box-shadow: 0 10px 22px rgba(0,0,0,.10);
@@ -169,7 +169,9 @@
 
       transform: translateX(-50%) translateY(120px);
       opacity: 0;
-      transition: transform 1050ms cubic-bezier(.2,.9,.2,1), opacity 700ms ease;
+
+      transition: transform 1050ms cubic-bezier(.2,.9,.2,1), opacity 700ms ease, height 600ms ease;
+      z-index: 2;
     }
 
     .letter::before{
@@ -181,6 +183,7 @@
       opacity:.35;
     }
 
+    /* ✅ clave: NO centrar verticalmente, sino arrancar arriba */
     .letter-inner{
       padding: 22px 20px 18px;
       height:100%;
@@ -188,7 +191,9 @@
       flex-direction:column;
       gap: 12px;
       align-items:center;
-      justify-content:center;
+      justify-content:flex-start;
+      position: relative;
+      z-index: 1;
     }
 
     .letter h1{
@@ -204,7 +209,6 @@
       max-width: 44ch;
     }
 
-    /* Buttons (solo queda el de PD) */
     .btn{
       appearance:none;
       border:none;
@@ -216,15 +220,19 @@
       cursor:pointer;
       box-shadow: 0 10px 18px rgba(0,0,0,.12);
       transition: transform 160ms ease, background 200ms ease, opacity 200ms ease;
+      position: relative;
+      z-index: 5;
+      margin-top: 6px;
     }
     .btn:hover{ background: var(--accent2); }
     .btn:active{ transform: translateY(1px) scale(.99); }
 
-    /* ===== Open state ===== */
+    /* ===== OPEN STATE ===== */
     .opened .flap{
       transform: rotateX(165deg);
     }
     .opened .seal{
+      animation:none;
       transform: translate(-50%, -50%) scale(.85);
       opacity: 0;
       pointer-events:none;
@@ -232,9 +240,13 @@
     .opened .letter{
       transform: translateX(-50%) translateY(-38px);
       opacity: 1;
+
+      /* ✅ al abrir, dejamos que crezca según el contenido */
+      height: auto;
+      overflow: visible;
     }
 
-    /* ===== PD fold effect (corner bottom-right) ===== */
+    /* PD */
     .pd-wrap{
       width:100%;
       display:flex;
@@ -317,15 +329,15 @@
       margin-top: 10px;
     }
 
-    /* ===== Modo hoja sola ===== */
-    .sheet-mode .envelope{
+    /* ===== SHEET MODE ===== */
+    .sheet-mode .envelope-shell{
       opacity: 0;
       transform: translateY(16px) scale(.98);
       pointer-events:none;
     }
 
     .sheet-mode .envelope-scene{
-      height: 310px;
+      height: 520px; /* ✅ más alto para que entre todo cómodo */
     }
 
     .sheet-mode .letter{
@@ -335,11 +347,16 @@
       transform: none !important;
       opacity: 1 !important;
       margin: 0 auto;
+
+      /* ✅ por las dudas, aseguramos */
+      height: auto !important;
+      overflow: visible !important;
     }
 
     @media (max-width: 380px){
       .letter h1{ font-size: 22px; }
       .letter p{ font-size: 16px; }
+      .sheet-mode .envelope-scene{ height: 560px; }
     }
   </style>
 </head>
@@ -350,13 +367,12 @@
 
     <div class="envelope-scene">
       <div class="envelope" id="envelope">
-        <div class="env-back"></div>
-        <div class="flap"></div>
-
-        <!-- ✅ ahora el corazón tiene id y abre la carta -->
-        <div class="seal" id="seal">❤</div>
-
-        <div class="env-front"></div>
+        <div class="envelope-shell">
+          <div class="env-back"></div>
+          <div class="flap"></div>
+          <div class="seal" id="seal">❤</div>
+          <div class="env-front"></div>
+        </div>
 
         <div class="letter" id="letter">
           <div class="letter-inner">
@@ -407,11 +423,9 @@
 
       envelope.classList.add("opened");
 
-      // Reset PD
       paperNote.classList.remove("show");
       paperNote.style.display = "none";
 
-      // Pasar a modo hoja sola
       setTimeout(() => {
         stage.classList.add("sheet-mode");
       }, 1200);
@@ -428,12 +442,13 @@
       btnMore.style.cursor = "default";
     }
 
-    // 💓 abrir tocando el corazón
     seal.addEventListener("click", openEnvelope);
+    seal.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      openEnvelope();
+    }, { passive: false });
 
-    // mostrar PD (igual que antes)
     btnMore.addEventListener("click", showPD);
   </script>
 </body>
 </html>
-
